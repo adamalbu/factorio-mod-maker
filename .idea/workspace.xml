@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e9c9ac9-a6f9-4122-8dd7-d49b79f58511" name="Changes" comment="i">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev_options_handling.py" beforeDir="false" afterPath="$PROJECT_DIR$/dev_options_handling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dialogs/location_setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/dialogs/location_setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/location_setup.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui/location_setup.ui" afterDir="false" />
+    <list default="true" id="8e9c9ac9-a6f9-4122-8dd7-d49b79f58511" name="Changes" comment="new location ui">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +26,9 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -118,7 +114,7 @@
       <workItem from="1721139612348" duration="2251000" />
       <workItem from="1721229654302" duration="33000" />
       <workItem from="1721232391324" duration="8533000" />
-      <workItem from="1721242492426" duration="1746000" />
+      <workItem from="1721242492426" duration="1955000" />
     </task>
     <task id="LOCAL-00001" summary="Main window and path setup">
       <option name="closed" value="true" />
@@ -136,7 +132,23 @@
       <option name="project" value="LOCAL" />
       <updated>1721232999483</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="i">
+      <option name="closed" value="true" />
+      <created>1721244257226</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1721244257226</updated>
+    </task>
+    <task id="LOCAL-00004" summary="new location ui">
+      <option name="closed" value="true" />
+      <created>1721244270382</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1721244270382</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,7 +157,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Main window and path setup" />
     <MESSAGE value="UI change" />
-    <option name="LAST_COMMIT_MESSAGE" value="UI change" />
+    <MESSAGE value="i" />
+    <MESSAGE value="new location ui" />
+    <option name="LAST_COMMIT_MESSAGE" value="new location ui" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
