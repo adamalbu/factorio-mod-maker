@@ -17,25 +17,25 @@
    <item>
     <layout class="QVBoxLayout" name="fileBrowseLayout">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="dataLabel">
        <property name="text">
-        <string>Location of Factorio &amp;installation</string>
+        <string>Location of Factorio &amp;data</string>
        </property>
        <property name="buddy">
-        <cstring>locationTextEdit</cstring>
+        <cstring>dataTextEdit</cstring>
        </property>
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="pathInputLayout">
+      <layout class="QHBoxLayout" name="dataInputLayout">
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
        <item>
-        <widget class="QLineEdit" name="locationTextEdit"/>
+        <widget class="QLineEdit" name="dataTextEdit"/>
        </item>
        <item>
-        <widget class="QPushButton" name="browseButton">
+        <widget class="QPushButton" name="dataBrowseButton">
          <property name="text">
           <string>&amp;Browse</string>
          </property>
@@ -44,7 +44,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="locationValidatorLabel">
+      <widget class="QLabel" name="dataValidatorLabel">
        <property name="text">
         <string>Invalid Location</string>
        </property>
@@ -54,25 +54,25 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="exeLabel">
        <property name="text">
         <string>Location of Factorio &amp;exe</string>
        </property>
        <property name="buddy">
-        <cstring>locationTextEdit</cstring>
+        <cstring>dataTextEdit</cstring>
        </property>
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="pathInputLayout_2">
+      <layout class="QHBoxLayout" name="exeInputLayout">
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
        <item>
-        <widget class="QLineEdit" name="locationTextEdit_2"/>
+        <widget class="QLineEdit" name="exeTextEdit"/>
        </item>
        <item>
-        <widget class="QPushButton" name="browseButton_2">
+        <widget class="QPushButton" name="exeBrowseButton">
          <property name="text">
           <string>B&amp;rowse</string>
          </property>
@@ -81,7 +81,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="locationValidatorLabel_2">
+      <widget class="QLabel" name="exeValidatorLabel">
        <property name="text">
         <string>Invalid Location</string>
        </property>

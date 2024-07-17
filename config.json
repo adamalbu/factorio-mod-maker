@@ -1,7 +1,8 @@
 {
     "dev_options": {
-        "reset_factorio_path_on_load": false,
+        "reset_factorio_path_on_load": true,
         "ic_debugger": true
     },
-    "factorio_path": null
+    "factorio_data": "C:/Users/albua_i/AppData/Roaming/Factorio",
+    "factorio_exe": "C:/Program Files/Factorio/bin/x64/factorio.exe"
 }
