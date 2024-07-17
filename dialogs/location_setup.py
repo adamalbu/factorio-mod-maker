@@ -2,12 +2,15 @@ import os
 from PyQt5 import uic
 from PyQt5.QtWidgets import QFileDialog, QDialogButtonBox
 
+
 class LocationSetupDialog:
     def __init__(self, config, update_button_text):
         self.config = config
         self.update_button_text = update_button_text
         self.dialog = uic.loadUi("ui\\location_setup.ui")
+
         self.dialog.browseButton.clicked.connect(self.open_file_dialog)
+
         self.dialog.buttonBox.accepted.connect(self.on_ok_pressed)
         self.dialog.buttonBox.rejected.connect(self.dialog.reject)
         self.dialog.locationTextEdit.textChanged.connect(self.update_validation_status)
