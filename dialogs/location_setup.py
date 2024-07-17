@@ -1,59 +1,105 @@
 import os
 from PyQt5 import uic
 from PyQt5.QtWidgets import QFileDialog, QDialogButtonBox
+from icecream import ic
+
+ic.includeContext = True
+
+
+def validate_factorio_directory(directory, required_folders, required_files):
+    if not os.path.isdir(directory):
+        directory = os.path.dirname(directory)
+
+    folders_exist = all(os.path.isdir(os.path.join(directory, folder)) for folder in required_folders)
+    files_exist = all(os.path.isfile(os.path.join(directory, file)) for file in required_files)
+
+    return folders_exist and files_exist
+
 
 class LocationSetupDialog:
     def __init__(self, config, update_button_text):
         self.config = config
         self.update_button_text = update_button_text
         self.dialog = uic.loadUi("ui\\location_setup.ui")
-        self.dialog.browseButton.clicked.connect(self.open_file_dialog)
+
+        self.validity_labels = {
+            self.dialog.dataValidatorLabel: False,
+            self.dialog.exeValidatorLabel: False
+        }
+
+        self.dialog.dataBrowseButton.clicked.connect(lambda: self.open_folder_dialog(
+            os.path.join(os.getenv('APPDATA', ''), 'Factorio'),
+            "Factorio Data Folder"
+        ))
+        self.dialog.exeBrowseButton.clicked.connect(lambda: self.open_file_dialog(
+            "C://Program Files//Factorio//bin//x64",
+            "Factorio Exe File",
+            "Executable Files (*.exe)"
+        ))
+
+        self.data_required_folders = ['mods', 'config', 'saves']
+        self.data_required_files = ['player-data.json', 'factorio-current.log']
+        self.exe_required_folders = []
+        self.exe_required_files = ['factorio.exe', 'factorio.pdb', 'ChromaAppInfo.xml']
+
         self.dialog.buttonBox.accepted.connect(self.on_ok_pressed)
         self.dialog.buttonBox.rejected.connect(self.dialog.reject)
-        self.dialog.locationTextEdit.textChanged.connect(self.update_validation_status)
+        self.dialog.dataTextEdit.textChanged.connect(lambda: self.update_validation_status(
+            self.dialog.dataTextEdit.text(),
+            self.dialog.dataValidatorLabel,
+            self.data_required_folders,
+            self.data_required_files,
+        ))
+
+        self.dialog.exeTextEdit.textChanged.connect(lambda: self.update_validation_status(
+            self.dialog.exeTextEdit.text(),
+            self.dialog.exeValidatorLabel,
+            self.exe_required_folders,
+            self.exe_required_files,
+        ))
 
     def show_dialog(self):
         self.dialog.setWindowTitle("Location Setup")
-        self.update_validation_status(self.dialog.locationTextEdit.text())
+        self.dialog.resize(1200, 400)
+        self.update_validation_status(self.dialog.dataTextEdit.text(), self.dialog.dataValidatorLabel,
+                                      self.data_required_folders, self.data_required_files)
+        self.update_validation_status(self.dialog.exeTextEdit.text(), self.dialog.exeValidatorLabel,
+                                      self.exe_required_folders, self.exe_required_files)
+
         self.dialog.show()
 
-    def open_file_dialog(self):
-        default_dir = os.path.join(os.getenv('APPDATA', ''), 'Factorio')
-        directory = QFileDialog.getExistingDirectory(self.dialog, "Select Factorio Path", default_dir)
+    def open_folder_dialog(self, default_dir, title):
+        directory = QFileDialog.getExistingDirectory(self.dialog, title, default_dir)
         if directory:
-            self.update_ui_with_path(directory)
+            self.dialog.dataTextEdit.setText(directory)
 
-    def update_ui_with_path(self, directory):
-        self.dialog.locationTextEdit.setText(directory)
-        self.update_validation_status(self.dialog.locationTextEdit.text())
+    def open_file_dialog(self, default_dir, title, file_filter="All Files (*)"):
+        file, _ = QFileDialog.getOpenFileName(self.dialog, title, default_dir, file_filter)
+        if file:
+            self.dialog.exeTextEdit.setText(file)
 
     def on_ok_pressed(self):
-        directory = self.dialog.locationTextEdit.text().strip()
-        if self.validate_factorio_directory(directory):
-            self.config["factorio_path"] = directory
-            self.update_button_text()  # Call the update function here
-            self.dialog.accept()
-        else:
-            # Optionally display an error message or handle invalid input
-            pass
+        self.config["factorio_data"] = self.dialog.dataTextEdit.text().strip()
+        self.config["factorio_exe"] = self.dialog.exeTextEdit.text().strip()
+        self.update_button_text()  # Call the update function here
+        self.dialog.accept()
 
-    def update_validation_status(self, text):
-        if text.strip():
-            if self.validate_factorio_directory(text):
-                self.dialog.locationValidatorLabel.setText("Valid Location")
-                self.dialog.locationValidatorLabel.setStyleSheet("color: green;")
-                self.dialog.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
+    def update_validation_status(self, directory_to_validate, label, required_folders, required_files):
+        ic()
+        if directory_to_validate.strip():
+            if validate_factorio_directory(directory_to_validate, required_folders, required_files):
+                label.setText("Valid Location")
+                label.setStyleSheet("color: green;")
+                if label in self.validity_labels.keys():
+                    self.validity_labels[label] = True
             else:
-                self.dialog.locationValidatorLabel.setText("Invalid Location")
-                self.dialog.locationValidatorLabel.setStyleSheet("color: red;")
-                self.dialog.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+                label.setText("Invalid Location")
+                label.setStyleSheet("color: red;")
+                if label in self.validity_labels.keys():
+                    self.validity_labels[label] = False
         else:
-            self.dialog.locationValidatorLabel.setText("")
+            label.setText("")
+        if all(self.validity_labels.values()):
+            self.dialog.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
+        else:
             self.dialog.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
-
-    def validate_factorio_directory(self, directory):
-        required_folders = ['mods', 'config', 'saves']
-        required_files = ['player-data.json', 'factorio-current.log']
-        folders_exist = all(os.path.isdir(os.path.join(directory, folder)) for folder in required_folders)
-        files_exist = all(os.path.isfile(os.path.join(directory, file)) for file in required_files)
-        return folders_exist and files_exist

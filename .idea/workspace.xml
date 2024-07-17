@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e9c9ac9-a6f9-4122-8dd7-d49b79f58511" name="Changes" comment="Main window and path setup">
-      <change afterPath="$PROJECT_DIR$/dialogs/new_mod.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev_options_handling.py" beforeDir="false" afterPath="$PROJECT_DIR$/dev_options_handling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dialogs/location_setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/dialogs/location_setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    <list default="true" id="8e9c9ac9-a6f9-4122-8dd7-d49b79f58511" name="Changes" comment="new location ui">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,34 +20,47 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2jCoIvswnplSp9lMH1aIdkfhKpz" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.extras.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Adam/Projects/Python/factorio-mod-maker/dialogs&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.Main.executor": "Run",
+    "Python.extras.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "full.screen.before.presentation.mode": "false",
+    "git-widget-placeholder": "location__refactor",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Adam/Projects/Python/factorio-mod-maker/dialogs",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Adam\Projects\Python\factorio-mod-maker\dialogs" />
@@ -102,15 +111,96 @@
       <workItem from="1720900347328" duration="1560000" />
       <workItem from="1720958191381" duration="8487000" />
       <workItem from="1720980307432" duration="1640000" />
+      <workItem from="1721139612348" duration="2251000" />
+      <workItem from="1721229654302" duration="33000" />
+      <workItem from="1721232391324" duration="8533000" />
+      <workItem from="1721242492426" duration="1955000" />
     </task>
+    <task id="LOCAL-00001" summary="Main window and path setup">
+      <option name="closed" value="true" />
+      <created>1721232649414</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1721232649414</updated>
+    </task>
+    <task id="LOCAL-00002" summary="UI change">
+      <option name="closed" value="true" />
+      <created>1721232999483</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1721232999483</updated>
+    </task>
+    <task id="LOCAL-00003" summary="i">
+      <option name="closed" value="true" />
+      <created>1721244257226</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1721244257226</updated>
+    </task>
+    <task id="LOCAL-00004" summary="new location ui">
+      <option name="closed" value="true" />
+      <created>1721244270382</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1721244270382</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Main window and path setup" />
+    <MESSAGE value="UI change" />
+    <MESSAGE value="i" />
+    <MESSAGE value="new location ui" />
+    <option name="LAST_COMMIT_MESSAGE" value="new location ui" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint suspend="NONE" type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/dialogs/location_setup.py" line="101">
+        <watch expression="self.valid_locations" language="Python" />
+      </inline-watch>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/dialogs/location_setup.py" line="101">
+        <watch expression="self.valid" language="Python" />
+      </inline-watch>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/dialogs/location_setup.py" line="104">
+        <watch expression="self.valid_locations" language="Python" />
+      </inline-watch>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/dialogs/location_setup.py" line="86">
+        <watch expression="directory_to_validate" language="Python" />
+      </inline-watch>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/dialogs/location_setup.py" line="101">
+        <watch expression="self.valid_locations" language="Python" />
+      </inline-watch>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/dialogs/location_setup.py" line="101">
+        <watch expression="self.valid_location" language="Python" />
+      </inline-watch>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/main.py" line="24">
+        <watch expression="config[&quot;factorio_path&quot;] is None" language="Python" />
+      </inline-watch>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/main.py" line="24">
+        <watch expression="config[&quot;factorio_path&quot;]" language="Python" />
+      </inline-watch>
+    </watches-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/factorio_mod_maker$main.coverage" NAME="main Coverage Results" MODIFIED="1720959422078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/factorio_mod_maker$Main.coverage" NAME="Main Coverage Results" MODIFIED="1720981334016" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/factorio_mod_maker$Main.coverage" NAME="Main Coverage Results" MODIFIED="1721244230216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/factorio_mod_maker$extras.coverage" NAME="extras Coverage Results" MODIFIED="1720959418686" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

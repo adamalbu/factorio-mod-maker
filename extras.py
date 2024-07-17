@@ -48,12 +48,3 @@ class ConfigFile(dict):
         result = super().setdefault(*args)
         self._update_file()
         return result
-
-
-# Example usage
-if __name__ == "__main__":
-    config = AutoUpdatingDict()
-    config['key1'] = 'value1'
-    config.update({'key2': 'value2'})
-    config.pop('key1')
-    config.clear()

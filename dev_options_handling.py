@@ -5,7 +5,6 @@ from extras import ConfigFile
 config = ConfigFile('config.json')
 
 def handle_all():
-    ic()
     handle_reset_factorio_path_on_load()
     handle_ic_debugger()
 
@@ -18,9 +17,7 @@ def config_option_handler(func):
 
 @config_option_handler
 def handle_reset_factorio_path_on_load():
-    ic(config["factorio_path"])
-    config["factorio_path"] = None
-    ic(config["factorio_path"])
+    config["factorio_data"] = None
 
 @config_option_handler
 def handle_ic_debugger():
