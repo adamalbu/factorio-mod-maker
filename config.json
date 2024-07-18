@@ -1,6 +1,6 @@
 {
     "dev_options": {
-        "reset_factorio_path_on_load": true,
+        "reset_factorio_path_on_load": false,
         "ic_debugger": true
     },
     "factorio_data": "C:/Users/albua_i/AppData/Roaming/Factorio",
