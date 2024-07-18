@@ -80,6 +80,7 @@ class LocationSetupDialog:
 
     def on_ok_pressed(self):
         self.config["factorio_data"] = self.dialog.dataTextEdit.text().strip()
+        self.config["factorio_mods"] = os.path.join(self.dialog.dataTextEdit.text().strip(), "mods")
         self.config["factorio_exe"] = self.dialog.exeTextEdit.text().strip()
         self.update_button_text()  # Call the update function here
         self.dialog.accept()

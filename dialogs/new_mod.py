@@ -98,5 +98,5 @@ class NewModDialog:
 
     def create_mod(self):
         name = self.dialog.nameLineEdit.text()
-
-        # config["projects"] = append_and_return(config["projects"], name)
+        config["projects"].append(name)
+        os.mkdir(os.path.join(config["factorio_data"], "mods"))
