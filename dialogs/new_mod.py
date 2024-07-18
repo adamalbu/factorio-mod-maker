@@ -48,11 +48,14 @@ class NewModDialog:
 
     def show_dialog(self):
         self.dialog.setWindowTitle("New Mod")
+        self.dialog.resize(900, 800)
 
         mod_dirs = list(os.scandir(os.path.join(config["factorio_data"], "mods")))
+        pattern = r"(_\d+\.\d+\.\d+)?(\.zip)?$"
         for mod in mod_dirs:
-            self.mod_names.append(str(mod.name).rstrip(".zip"))  # TODO: continue
-
+            mod_name = str(mod.name).lower()
+            stripped_name = re.sub(pattern, "", mod_name)
+            self.mod_names.append(stripped_name)
         self.dialog.show()
 
     def update_mod_name(self):
