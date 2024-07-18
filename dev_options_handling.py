@@ -10,14 +10,14 @@ def handle_all():
 
 def config_option_handler(func):
     def wrapper():
-        option_key = func.__name__.replace("handle_", "")  # Remove "handle_" prefix from function name
-        if config["dev_options"].get(option_key, False):
+        option_key = func.__name__.replace('handle_', '')  # Remove 'handle_' prefix from function name
+        if config['dev_options'].get(option_key, False):
             func()
     return wrapper
 
 @config_option_handler
 def handle_reset_factorio_path_on_load():
-    config["factorio_data"] = None
+    config['factorio_data'] = None
 
 @config_option_handler
 def handle_ic_debugger():

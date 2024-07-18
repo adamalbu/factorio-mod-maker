@@ -1,3 +1,4 @@
+import json
 import os
 import re
 
@@ -14,7 +15,7 @@ config = ConfigFile('config.json')
 
 class NewModDialog:
     def __init__(self):
-        self.dialog = uic.loadUi("ui\\new_mod_dialog.ui")
+        self.dialog = uic.loadUi('ui\\new_mod_dialog.ui')
         self.dialog.v0Box.setValidator(QIntValidator())
         self.dialog.v1Box.setValidator(QIntValidator())
         self.dialog.v2Box.setValidator(QIntValidator())
@@ -47,14 +48,14 @@ class NewModDialog:
         self.check_mandatory_fields()
 
     def show_dialog(self):
-        self.dialog.setWindowTitle("New Mod")
+        self.dialog.setWindowTitle('New Mod')
         self.dialog.resize(900, 800)
 
-        mod_dirs = list(os.scandir(os.path.join(config["factorio_data"], "mods")))
-        pattern = r"(_\d+\.\d+\.\d+)?(\.zip)?$"
+        mod_dirs = list(os.scandir(os.path.join(config['factorio_data'], 'mods')))
+        pattern = r'(_\d+\.\d+\.\d+)?(\.zip)?$'
         for mod in mod_dirs:
             mod_name = str(mod.name).lower()
-            stripped_name = re.sub(pattern, "", mod_name)
+            stripped_name = re.sub(pattern, '', mod_name)
             self.mod_names.append(stripped_name)
         self.dialog.show()
 
@@ -79,24 +80,47 @@ class NewModDialog:
         self.dialog.nameLineEdit.textChanged.connect(handle_text_change)
 
         # Set validator to allow alphanumeric characters, dashes, and underscores
-        pattern = QRegExp("[a-zA-Z0-9_-\\s]+")  # Alphanumeric characters, dashes, and underscores
+        pattern = QRegExp('[a-zA-Z0-9_-\\s]+')  # Alphanumeric characters, dashes, and underscores
         validator = QRegExpValidator(pattern)
         self.dialog.nameLineEdit.setValidator(validator)
 
     def check_mod_name_availability(self):
         mod_name = self.dialog.nameLineEdit.text()
         if mod_name in self.mod_names:
-            self.dialog.availabilityLabel.setText("The mod name is already taken.")
-            self.dialog.availabilityLabel.setStyleSheet("color: red;")
+            self.dialog.availabilityLabel.setText('The mod name is already taken.')
+            self.dialog.availabilityLabel.setStyleSheet('color: red;')
         else:
-            self.dialog.availabilityLabel.setText("The mod name is available.")
-            self.dialog.availabilityLabel.setStyleSheet("color: green;")
+            self.dialog.availabilityLabel.setText('The mod name is available.')
+            self.dialog.availabilityLabel.setStyleSheet('color: green;')
 
     def check_mandatory_fields(self):
-        all_filled = all(field.text().strip() != "" for field in self.fields)
+        all_filled = all(field.text().strip() != '' for field in self.fields)
         self.dialog.buttonBox.button(QDialogButtonBox.Ok).setEnabled(all_filled)
 
     def create_mod(self):
-        name = self.dialog.nameLineEdit.text()
-        config["projects"].append(name)
-        os.mkdir(os.path.join(config["factorio_data"], "mods"))
+        info = {
+            'title': self.dialog.titleLineEdit.text(),
+            'name': self.dialog.nameLineEdit.text(),
+            'author': self.dialog.authorLineEdit.text(),
+            'contact': self.dialog.contactLineEdit.text(),
+            'homepage': self.dialog.homepageLineEdit.text(),
+            'description': self.dialog.descriptionTextEdit.toPlainText(),
+            'version':
+                self.dialog.v0Box.text() +
+                '.' +
+                self.dialog.v1Box.text() +
+                '.' +
+                self.dialog.v2Box.text(),
+            'factorio version':
+                self.dialog.fv0Box.text() +
+                '.' +
+                self.dialog.fv0Box.text(),
+        }
+        config['projects'].append(info['name'])
+        mod_folder = os.path.join(config['factorio_mods'], info['name'])
+        os.mkdir(mod_folder)
+        info_file_path = os.path.join(mod_folder, 'info.json')
+        ic()
+        with open(info_file_path, 'w') as file:
+            json.dump(info, file, indent=4)
+        ic()

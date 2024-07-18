@@ -133,12 +133,12 @@
           <string>&amp;Description</string>
          </property>
          <property name="buddy">
-          <cstring>decriptionTextEdit</cstring>
+          <cstring>descriptionTextEdit</cstring>
          </property>
         </widget>
        </item>
        <item row="7" column="1">
-        <widget class="QPlainTextEdit" name="decriptionTextEdit"/>
+        <widget class="QPlainTextEdit" name="descriptionTextEdit"/>
        </item>
        <item row="8" column="0">
         <widget class="Line" name="line_2">
@@ -314,7 +314,7 @@
   <tabstop>authorLineEdit</tabstop>
   <tabstop>contactLineEdit</tabstop>
   <tabstop>homepageLineEdit</tabstop>
-  <tabstop>decriptionTextEdit</tabstop>
+  <tabstop>descriptionTextEdit</tabstop>
   <tabstop>v0Box</tabstop>
   <tabstop>v1Box</tabstop>
   <tabstop>v2Box</tabstop>

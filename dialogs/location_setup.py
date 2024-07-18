@@ -20,7 +20,7 @@ class LocationSetupDialog:
     def __init__(self, config, update_button_text):
         self.config = config
         self.update_button_text = update_button_text
-        self.dialog = uic.loadUi("ui\\location_setup.ui")
+        self.dialog = uic.loadUi('ui\\location_setup.ui')
 
         self.validity_labels = {
             self.dialog.dataValidatorLabel: False,
@@ -29,12 +29,12 @@ class LocationSetupDialog:
 
         self.dialog.dataBrowseButton.clicked.connect(lambda: self.open_folder_dialog(
             os.path.join(os.getenv('APPDATA', ''), 'Factorio'),
-            "Factorio Data Folder"
+            'Factorio Data Folder'
         ))
         self.dialog.exeBrowseButton.clicked.connect(lambda: self.open_file_dialog(
-            "C://Program Files//Factorio//bin//x64",
-            "Factorio Exe File",
-            "Executable Files (*.exe)"
+            'C://Program Files//Factorio//bin//x64',
+            'Factorio Exe File',
+            'Executable Files (*.exe)'
         ))
 
         self.data_required_folders = ['mods', 'config', 'saves']
@@ -59,7 +59,7 @@ class LocationSetupDialog:
         ))
 
     def show_dialog(self):
-        self.dialog.setWindowTitle("Location Setup")
+        self.dialog.setWindowTitle('Location Setup')
         self.dialog.resize(1200, 400)
         self.update_validation_status(self.dialog.dataTextEdit.text(), self.dialog.dataValidatorLabel,
                                       self.data_required_folders, self.data_required_files)
@@ -73,15 +73,15 @@ class LocationSetupDialog:
         if directory:
             self.dialog.dataTextEdit.setText(directory)
 
-    def open_file_dialog(self, default_dir, title, file_filter="All Files (*)"):
+    def open_file_dialog(self, default_dir, title, file_filter='All Files (*)'):
         file, _ = QFileDialog.getOpenFileName(self.dialog, title, default_dir, file_filter)
         if file:
             self.dialog.exeTextEdit.setText(file)
 
     def on_ok_pressed(self):
-        self.config["factorio_data"] = self.dialog.dataTextEdit.text().strip()
-        self.config["factorio_mods"] = os.path.join(self.dialog.dataTextEdit.text().strip(), "mods")
-        self.config["factorio_exe"] = self.dialog.exeTextEdit.text().strip()
+        self.config['factorio_data'] = self.dialog.dataTextEdit.text().strip()
+        self.config['factorio_mods'] = os.path.join(self.dialog.dataTextEdit.text().strip(), 'mods')
+        self.config['factorio_exe'] = self.dialog.exeTextEdit.text().strip()
         self.update_button_text()  # Call the update function here
         self.dialog.accept()
 
@@ -89,17 +89,17 @@ class LocationSetupDialog:
         ic()
         if directory_to_validate.strip():
             if validate_factorio_directory(directory_to_validate, required_folders, required_files):
-                label.setText("Valid Location")
-                label.setStyleSheet("color: green;")
+                label.setText('Valid Location')
+                label.setStyleSheet('color: green;')
                 if label in self.validity_labels.keys():
                     self.validity_labels[label] = True
             else:
-                label.setText("Invalid Location")
-                label.setStyleSheet("color: red;")
+                label.setText('Invalid Location')
+                label.setStyleSheet('color: red;')
                 if label in self.validity_labels.keys():
                     self.validity_labels[label] = False
         else:
-            label.setText("")
+            label.setText('')
         if all(self.validity_labels.values()):
             self.dialog.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
         else:
