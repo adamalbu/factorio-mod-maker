@@ -1,17 +1,10 @@
-import json
-import os
-
-
-import os
-import json
-
 import os
 import json
 
 class ConfigFile(dict):
-    def __init__(self, config, *args, **kwargs):
+    def __init__(self, config_file, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.config_file = config
+        self.config_file = config_file
         self._load_from_file()
 
     def _load_from_file(self):
@@ -24,12 +17,11 @@ class ConfigFile(dict):
         with open(self.config_file, 'w') as file:
             json.dump(self, file, indent=4)
 
-    def _update_nested_objects(self, key):
-        value = self[key]
-        if isinstance(value, dict):
-            self[key] = ConfigFile(self.config_file, value)
-        elif isinstance(value, list):
-            self[key] = ConfigList(self.config_file, value)
+    def __getitem__(self, key):
+        value = super().__getitem__(key)
+        if isinstance(value, list):
+            return AutoUpdateList(value, parent_config=self, key=key, update_callback=self._update_file)
+        return value
 
     def __setitem__(self, key, value):
         super().__setitem__(key, value)
@@ -62,69 +54,27 @@ class ConfigFile(dict):
         self._update_file()
         return result
 
-    def append_to_list(self, key, item):
-        self[key].append(item)
-        self._update_file()
-
-class ConfigList(list):
-    def __init__(self, config_file, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.config_file = config_file
-
-    def _update_file(self):
-        with open(self.config_file, 'w') as file:
-            json.dump(self, file, indent=4)
+class AutoUpdateList(list):
+    def __init__(self, initial_list=None, parent_config=None, key=None, update_callback=None):
+        if initial_list is None:
+            initial_list = []
+        super().__init__(initial_list)
+        self._parent_config = parent_config
+        self._key = key
+        self._update_callback = update_callback
 
     def append(self, item):
         super().append(item)
-        self._update_file()
+        self._parent_config[self._key] = self[:]  # Update the list in parent_config
+        if self._update_callback:
+            self._update_callback()
 
-    def extend(self, items):
-        super().extend(items)
-        self._update_file()
+# Example usage:
+config = ConfigFile('config.json')
+config['my_list'] = []  # Initialize 'my_list' as an empty list
 
-    def insert(self, index, item):
-        super().insert(index, item)
-        self._update_file()
+# Append items to 'my_list' using the desired format
+config['my_list'].append('item1')
+config['my_list'].append('item2')
 
-    def remove(self, item):
-        super().remove(item)
-        self._update_file()
-
-    def pop(self, index=-1):
-        result = super().pop(index)
-        self._update_file()
-        return result
-
-    def clear(self):
-        super().clear()
-        self._update_file()
-
-    def __setitem__(self, index, value):
-        super().__setitem__(index, value)
-        self._update_file()
-
-    def __delitem__(self, index):
-        super().__delitem__(index)
-        self._update_file()
-
-    def __iadd__(self, other):
-        super().__iadd__(other)
-        self._update_file()
-
-    def __imul__(self, other):
-        super().__imul__(other)
-        self._update_file()
-
-    def reverse(self):
-        super().reverse()
-        self._update_file()
-
-    def sort(self, *args, **kwargs):
-        super().sort(*args, **kwargs)
-        self._update_file()
-
-
-def append_and_return(lst, item):
-    lst.append(item)
-    return lst
+# Now 'config.json' will be updated with ['item1', 'item2'] in 'my_list'

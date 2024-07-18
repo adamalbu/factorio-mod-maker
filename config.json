@@ -6,5 +6,12 @@
     "factorio_data": "C:/Users/albua_i/AppData/Roaming/Factorio",
     "factorio_exe": "C:/Program Files/Factorio/bin/x64/factorio.exe",
     "factorio_mods": "C:/Users/albua_i/AppData/Roaming/Factorio\\mods",
-    "projects": []
+    "projects": [
+        "test",
+        "test"
+    ],
+    "my_list": [
+        "item1",
+        "item2"
+    ]
 }

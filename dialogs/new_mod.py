@@ -8,7 +8,7 @@ from PyQt5.QtGui import QIntValidator, QRegExpValidator
 from PyQt5.QtWidgets import QDialogButtonBox
 from icecream import ic
 
-from extras import ConfigFile, append_and_return
+from extras import ConfigFile
 
 config = ConfigFile('config.json')
 
