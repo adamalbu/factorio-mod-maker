@@ -1,9 +1,8 @@
-import os
 import sys
 from PyQt5 import QtWidgets, uic
-from icecream import ic
+from PyQt5.QtWidgets import QAction
 
-from dev_options_handling import handle_all, handle_reset_factorio_path_on_load
+from dev_options_handling import handle_all
 from dialogs.location_setup import LocationSetupDialog
 from dialogs.new_mod import NewModDialog
 from extras import ConfigFile
@@ -34,6 +33,12 @@ new_mod_dialog = NewModDialog()
 
 # region Menu actions
 window.actionNew.triggered.connect(new_mod_dialog.show_dialog)
+for project in config['projects']:
+    project = QAction(project)
+    # window.menubar.addAction(project)
+    window.menu_Open.addAction(project)
+# window.menu_Open.addAction(QAction("test"))
+# ic(window.menu_Open)
 # endregion
 
 window.mainButton.clicked.connect(on_main_button_clicked)

@@ -68,13 +68,3 @@ class AutoUpdateList(list):
         self._parent_config[self._key] = self[:]  # Update the list in parent_config
         if self._update_callback:
             self._update_callback()
-
-# Example usage:
-config = ConfigFile('config.json')
-config['my_list'] = []  # Initialize 'my_list' as an empty list
-
-# Append items to 'my_list' using the desired format
-config['my_list'].append('item1')
-config['my_list'].append('item2')
-
-# Now 'config.json' will be updated with ['item1', 'item2'] in 'my_list'
