@@ -1,52 +1,71 @@
-import sys
+import sys, os
 from PyQt5 import QtWidgets, uic
-from PyQt5.QtWidgets import QAction
+from PyQt5.QtWidgets import QFileDialog
 
 from dev_options_handling import handle_all
 from dialogs.location_setup import LocationSetupDialog
 from dialogs.new_mod import NewModDialog
 from extras import ConfigFile
 
-config = ConfigFile('config.json')
-handle_all()
+from editor import EditorWindow
 
-app = QtWidgets.QApplication(sys.argv)
+class MainWindow:
+    def __init__(self, config):
+        self.config = config
+        self.app = QtWidgets.QApplication(sys.argv)
+        if self.config['last_project']:
+            self.start_editor()
+            return
 
-window = uic.loadUi('ui\\mainwindow.ui')
+        self.window = uic.loadUi('ui\\mainwindow.ui')
+        self.location_setup_dialog = LocationSetupDialog(config, self.update_button_text)
+        self.new_mod_dialog = NewModDialog()
 
-def update_button_text():
-    if config['factorio_data'] is None:
-        window.mainButton.setText('Setup')
-    else:
-        window.mainButton.setText('New Project')
+        self.setup_ui()
+        self.update_button_text()
 
+    def setup_ui(self):
+        self.window.actionNew.triggered.connect(self.new_mod_dialog.show_dialog)
+        self.window.actionOpen.triggered.connect(self.open_project_picker)
 
-def on_main_button_clicked():
-    if config['factorio_data'] is None:
-        location_setup_dialog.show_dialog()
-    else:
-        new_mod_dialog.show_dialog()
+        self.window.mainButton.clicked.connect(self.on_main_button_clicked)
+        self.window.showEvent = lambda event: self.update_button_text()
 
+        self.window.setWindowTitle("Factorio Mod Maker")
+        self.window.resize(1000, 600)
+        self.window.show()
 
-location_setup_dialog = LocationSetupDialog(config, update_button_text)
-new_mod_dialog = NewModDialog()
+    def open_project_picker(self):
+        options = QFileDialog.Options()
+        default_dir = os.path.join(os.getenv('APPDATA', ''), 'factorio', 'mods')
+        folder_name = QFileDialog.getExistingDirectory(self.window, "Select Folder", default_dir, options=options)
+        if folder_name:
+            self.config['last_project'] = folder_name
+            self.start_editor()
 
-# region Menu actions
-window.actionNew.triggered.connect(new_mod_dialog.show_dialog)
-for project in config['projects']:
-    project = QAction(project)
-    # window.menubar.addAction(project)
-    window.menu_Open.addAction(project)
-# window.menu_Open.addAction(QAction("test"))
-# ic(window.menu_Open)
-# endregion
+    def start_editor(self):
+        self.window.close()
 
-window.mainButton.clicked.connect(on_main_button_clicked)
-window.showEvent = lambda event: update_button_text()
+        editor = EditorWindow(self.config, self.config['last_project'])
+        editor.open_window()
 
-window.setWindowTitle("Factorio Mod Maker")
-window.resize(1000, 600)
-window.show()
-update_button_text()
+    def update_button_text(self):
+        if self.config['factorio_data'] is None:
+            self.window.mainButton.setText('Setup')
+        else:
+            self.window.mainButton.setText('New Project')
 
-sys.exit(app.exec_())
+    def on_main_button_clicked(self):
+        if self.config['factorio_data'] is None:
+            self.location_setup_dialog.show_dialog()
+        else:
+            self.new_mod_dialog.show_dialog()
+
+    def run(self):
+        sys.exit(self.app.exec_())
+
+if __name__ == "__main__":
+    config = ConfigFile('config.json')
+    handle_all()
+    main_window = MainWindow(config)
+    main_window.run()
