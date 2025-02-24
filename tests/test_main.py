@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock, patch, call
-from main import MainWindow
+from welcome_screen import WelcomeScreen
 from extras import ConfigFile
 
 class TestMainWindow(unittest.TestCase):
@@ -10,7 +10,7 @@ class TestMainWindow(unittest.TestCase):
         self.config = ConfigFile('config.json')
         self.config['factorio_data'] = None
         self.config['projects'] = ['Project1', 'Project2']
-        self.main_window = MainWindow(self.config)
+        self.main_window = WelcomeScreen(self.config)
         self.main_window.window = MagicMock()
 
     def test_update_button_text_setup(self):
