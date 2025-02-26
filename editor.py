@@ -4,7 +4,7 @@ from PyQt5 import uic
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 
-from extras import ConfigFile
+from config import ConfigFile
 
 
 class EditorWindow:

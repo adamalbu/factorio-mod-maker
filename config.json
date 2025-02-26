@@ -1,13 +1,4 @@
 {
-    "dev_options": {
-        "reset_factorio_path_on_load": false,
-        "ic_debugger": true
-    },
-    "factorio_data": "C:/Users/albua_i/AppData/Roaming/Factorio",
-    "factorio_exe": "C:/Program Files/Factorio/bin/x64/factorio.exe",
-    "factorio_mods": "C:/Users/albua_i/AppData/Roaming/Factorio\\mods",
-    "projects": [
-        "FMM-first-mod"
-    ],
-    "last_project": "C:/Users/albua_i/AppData/Roaming/Factorio/mods/FMM-first-mod"
+    "setup_data_location": "C:/Users/albua_i/AppData/Roaming/Factorio",
+    "setup_exe_location": "C:/Program Files/Factorio/bin/x64"
 }
