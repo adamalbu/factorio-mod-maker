@@ -4,7 +4,6 @@
 
 <instance-profile id="fmm"
                  name="Factorio Mod Maker"
-                 start-page="starter-topic.md">
+>
 
-    <toc-element topic="starter-topic.md"/>
 </instance-profile>

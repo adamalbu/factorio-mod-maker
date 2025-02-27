@@ -15,5 +15,3 @@ class ConfigFile:
     def save_config(self):
         with open(self.file_path, 'w') as file:
             json.dump(self.config, file, indent=4)
-
-config = ConfigFile('config.json')

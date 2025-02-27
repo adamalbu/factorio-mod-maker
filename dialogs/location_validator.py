@@ -5,8 +5,6 @@ from PyQt5 import QtWidgets
 from icecream import ic
 import os
 
-from config import config
-
 class ValidatorWidget(QVBoxLayout):
     def __init__(self, label, valid_files, valid_folders, default_path):
         super().__init__()
@@ -21,7 +19,7 @@ class ValidatorWidget(QVBoxLayout):
         label = QLabel(label)
 
         self.path = QLineEdit()
-        self.path.textChanged.connect(lambda: self.validate_from_textbox(self.path.text())) # FIXME: change func
+        self.path.textChanged.connect(lambda: self.validate_from_textbox(self.path.text()))
         self.browse = QPushButton("Browse")
         self.browse.clicked.connect(self.browse_and_validate)
         self.status = QLabel("Invalid Location")
@@ -81,8 +79,10 @@ class ValidatorWidget(QVBoxLayout):
         self.path.setText(self.location)
 
 class LocationSetup(QDialog):
-    def __init__(self):
+    def __init__(self, config):
         super().__init__()
+
+        self.config = config
 
         self.dialog_buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         self.dialog_buttons.button(QDialogButtonBox.Ok).setEnabled(False)
@@ -102,9 +102,9 @@ class LocationSetup(QDialog):
         self.create_ui()
 
     def save_config(self):
-        config.config['setup_data_location'] = self.data_validation.location
-        config.config['setup_exe_location'] = self.exe_validation.location
-        config.save_config()
+        self.config['setup_data_location'] = self.data_validation.location + "/mods"
+        self.config['setup_exe_location'] = self.exe_validation.location
+        self.save_config()
         self.accept()
 
     def set_up_window(self):
@@ -113,7 +113,6 @@ class LocationSetup(QDialog):
 
     def validation_update(self, _valid):
         if self.data_validation.valid and self.exe_validation.valid:
-            # enable ok dialog button
             self.dialog_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
         else:
             self.dialog_buttons.button(QDialogButtonBox.Ok).setEnabled(False)
