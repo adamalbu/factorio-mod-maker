@@ -4,6 +4,7 @@
 
 <instance-profile id="fmm"
                  name="Factorio Mod Maker"
->
+                  start-page="Quickstart.md">
 
+    <toc-element topic="Quickstart.md"/>
 </instance-profile>
