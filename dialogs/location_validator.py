@@ -73,7 +73,7 @@ class ValidatorWidget(QVBoxLayout):
         self.update_status(valid)
 
     def browse_and_validate(self):
-        self.location = self.open_folder_picker()
+        self.location = self.open_folder_picker() # TODO: should be able to also use file picker
         valid = self.validate()
         self.update_status(valid)
         self.path.setText(self.location)
@@ -102,9 +102,9 @@ class LocationSetup(QDialog):
         self.create_ui()
 
     def save_config(self):
-        self.config['setup_data_location'] = self.data_validation.location + "/mods"
-        self.config['setup_exe_location'] = self.exe_validation.location
-        self.save_config()
+        self.config.config['setup_data_location'] = self.data_validation.location + "/mods"
+        self.config.config['setup_exe_location'] = self.exe_validation.location
+        self.config.save_config()
         self.accept()
 
     def set_up_window(self):
