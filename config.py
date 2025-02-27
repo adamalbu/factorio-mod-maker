@@ -10,7 +10,8 @@ class ConfigFile:
             with open(self.file_path, 'r') as file:
                 return json.load(file)
         except FileNotFoundError:
-            return {}
+            with open(self.file_path, 'w') as file:
+                json.dump({}, file)
 
     def save_config(self):
         with open(self.file_path, 'w') as file:
