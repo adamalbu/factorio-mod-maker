@@ -234,3 +234,4 @@ fabric.properties
 *.autosave
 
 qodana.yaml
+config.json
