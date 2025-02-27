@@ -1,126 +1,176 @@
-import json
 import os
-import re
 
-from PyQt5 import uic
-from PyQt5.QtCore import QRegExp
-from PyQt5.QtGui import QIntValidator, QRegExpValidator
-from PyQt5.QtWidgets import QDialogButtonBox
-from icecream import ic
+from PyQt5 import QtWidgets
+from PyQt5.QtCore import QObject, QLine
+from PyQt5.QtGui import QFont, QIntValidator
+from PyQt5.QtWidgets import QDialog, QLineEdit, QLabel, QSpacerItem, QFormLayout, QWidget, QFrame, QPushButton, \
+    QTextEdit, QHBoxLayout, QDialogButtonBox
 
-from extras import ConfigFile
-
-config = ConfigFile('config.json')
+from config import ConfigFile
 
 
-class NewModDialog:
-    def __init__(self):
-        self.dialog = uic.loadUi('ui\\new_mod_dialog.ui')
-        self.dialog.v0Box.setValidator(QIntValidator())
-        self.dialog.v1Box.setValidator(QIntValidator())
-        self.dialog.v2Box.setValidator(QIntValidator())
-        self.dialog.fv0Box.setValidator(QIntValidator())
-        self.dialog.fv1Box.setValidator(QIntValidator())
+class NewModDialog(QDialog):
+    def __init__(self, config_file):
+        super().__init__()
 
-        self.mod_names = []
+        self.config = config_file
+        self.list_of_mods = []
 
-        self.fields = [
-            self.dialog.titleLineEdit,
-            self.dialog.nameLineEdit,
-            self.dialog.authorLineEdit,
-            self.dialog.v0Box,
-            self.dialog.v1Box,
-            self.dialog.v2Box,
-            self.dialog.fv0Box,
-            self.dialog.fv1Box
-        ]
+        for mod in os.listdir(self.config.config['setup_data_location']):
+            self.list_of_mods.append(mod.rstrip('.zip'))
 
-        for field in self.fields:
-            field.textChanged.connect(self.check_mandatory_fields)
+        self.setWindowTitle("New Mod Setup")
+        self.resize(800, 500)
 
-        self.dialog.nameLineEdit.textChanged.connect(self.check_mod_name_availability)
+        layout = QFormLayout()
 
-        self.dialog.titleLineEdit.textChanged.connect(self.update_mod_name)
-        self.dialog.nameLineEdit.textChanged.connect(self.fix_mod_name)
+        title_label = QLabel("*Mod &Title:")
+        self.title = QLineEdit()
+        title_label.setBuddy(self.title)
+        self.title.textChanged.connect(self.title_updated)
+        self.title.setFont(QFont("Courier New", 9))
+        layout.addRow(title_label, self.title)
 
-        self.dialog.buttonBox.accepted.connect(self.create_mod)
+        name_label = QLabel("*Mod &Name:")
+        self.name = QLineEdit()
+        name_label.setBuddy(self.name)
+        self.name.setFont(QFont("Courier New", 9))
+        self.name.textChanged.connect(self.name_update)
+        layout.addRow(name_label, self.name)
+        self.availability = QLabel("Name is available")
+        self.availability.setStyleSheet("color: green")
+        layout.addRow(QWidget(), self.availability)
+
+        version_label = QLabel("*&Version:")
+        version_layout = QHBoxLayout()
+        self.v1 = QLineEdit()
+        self.v1.setValidator(QIntValidator(0, 65535))
+        self.v1.textChanged.connect(self.check_mandatory_fields)
+        self.v2 = QLineEdit()
+        self.v2.setValidator(QIntValidator(0, 65535))
+        self.v2.textChanged.connect(self.check_mandatory_fields)
+        self.v3 = QLineEdit()
+        self.v3.setValidator(QIntValidator(0, 65535))
+        self.v3.textChanged.connect(self.check_mandatory_fields)
+        version_layout.addWidget(self.v1)
+        version_layout.addWidget(QLabel("."))
+        version_layout.addWidget(self.v2)
+        version_layout.addWidget(QLabel("."))
+        version_layout.addWidget(self.v3)
+        version_label.setBuddy(self.v1)
+        layout.addRow(version_label, version_layout)
+
+        factorio_version_label = QLabel("*Factorio &Version:")
+        factorio_version_layout = QHBoxLayout()
+        self.fv1 = QLineEdit()
+        self.fv1.setValidator(QIntValidator(0, 65535))
+        self.fv1.textChanged.connect(self.check_mandatory_fields)
+        self.fv2 = QLineEdit()
+        self.fv2.setValidator(QIntValidator(0, 65535))
+        self.fv2.textChanged.connect(self.check_mandatory_fields)
+        factorio_version_layout.addWidget(self.fv1)
+        factorio_version_layout.addWidget(QLabel("."))
+        factorio_version_layout.addWidget(self.fv2)
+        factorio_version_label.setBuddy(self.fv1)
+        layout.addRow(factorio_version_label, factorio_version_layout)
+
+        separator = QFrame()
+        separator.setFrameShape(QFrame.HLine)
+        layout.addRow(separator)
+
+        author_label = QLabel("*&Author:")
+        self.author = QLineEdit()
+        author_label.setBuddy(self.author)
+        self.author.textChanged.connect(self.check_mandatory_fields)
+        layout.addRow(author_label, self.author)
+
+        contact_label = QLabel("&Contact:")
+        self.contact = QLineEdit()
+        contact_label.setBuddy(self.contact)
+        layout.addRow(contact_label, self.contact)
+
+        homepage_label = QLabel("&Homepage:")
+        self.homepage = QLineEdit()
+        homepage_label.setBuddy(self.homepage)
+        layout.addRow(homepage_label, self.homepage)
+
+        description_label = QLabel("&Description:")
+        self.description = QTextEdit()
+        description_label.setBuddy(self.description)
+        layout.addRow(description_label, self.description)
+
+        spacer = QSpacerItem(0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        layout.addItem(spacer)
+
+        self.dialog_buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        self.dialog_buttons.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.dialog_buttons.accepted.connect(self.generate_mod_data)
+        self.dialog_buttons.rejected.connect(self.reject)
+
+        layout.addWidget(self.dialog_buttons)
+
+        self.setLayout(layout)
+
+        self.show()
+
+    def title_updated(self):
+        self.name.setText(self.title.text())
+        self.name_update()
+
+    def name_update(self):
+        text = self.name.text()
+        name = text.replace(" ", "-")
+        # remove everything except alphanumeric characters, dashes and underscores
+        name = ''.join(e for e in name if e.isalnum() or e == '-' or e == '_')
+        self.name.setText(name)
+
+        name = self.name.text()
+
+        mods_path = self.config.config['setup_data_location']
+
+        if name in self.list_of_mods:
+            self.availability.setText("Name is not available")
+            self.availability.setStyleSheet("color: red")
+        else:
+            self.availability.setText("Name is available")
+            self.availability.setStyleSheet("color: green")
 
         self.check_mandatory_fields()
 
-    def show_dialog(self):
-        self.dialog.setWindowTitle('New Mod')
-        self.dialog.resize(900, 800)
-
-        mod_dirs = list(os.scandir(os.path.join(config['factorio_data'], 'mods')))
-        pattern = r'(_\d+\.\d+\.\d+)?(\.zip)?$'
-        for mod in mod_dirs:
-            mod_name = str(mod.name).lower()
-            stripped_name = re.sub(pattern, '', mod_name)
-            self.mod_names.append(stripped_name)
-        self.dialog.show()
-
-    def update_mod_name(self):
-        def format_title_text(text):
-            # Convert to lowercase, replace spaces with dashes, and remove non-alphanumeric characters except dashes
-            # and underscores
-            formatted_text = re.sub(r'[^a-z0-9-_]+', '', text.lower().replace(' ', '-'))
-            return formatted_text
-
-        # Set the formatted text to nameLineEdit
-        self.dialog.nameLineEdit.setText(format_title_text(self.dialog.titleLineEdit.text()))
-
-    def fix_mod_name(self):
-        def handle_text_change(text):
-            # Replace spaces with dashes
-            modified_text = text.replace(' ', '-')
-            # Update the text in nameLineEdit
-            self.dialog.nameLineEdit.setText(modified_text)
-
-        # Connect the textChanged signal of nameLineEdit to the handle_text_change function
-        self.dialog.nameLineEdit.textChanged.connect(handle_text_change)
-
-        # Set validator to allow alphanumeric characters, dashes, and underscores
-        pattern = QRegExp('[a-zA-Z0-9_-\\s]+')  # Alphanumeric characters, dashes, and underscores
-        validator = QRegExpValidator(pattern)
-        self.dialog.nameLineEdit.setValidator(validator)
-
-    def check_mod_name_availability(self):
-        mod_name = self.dialog.nameLineEdit.text()
-        if mod_name in self.mod_names:
-            self.dialog.availabilityLabel.setText('The mod name is already taken.')
-            self.dialog.availabilityLabel.setStyleSheet('color: red;')
-        else:
-            self.dialog.availabilityLabel.setText('The mod name is available.')
-            self.dialog.availabilityLabel.setStyleSheet('color: green;')
-
     def check_mandatory_fields(self):
-        all_filled = all(field.text().strip() != '' for field in self.fields)
-        self.dialog.buttonBox.button(QDialogButtonBox.Ok).setEnabled(all_filled)
+        info = self.title.text() and self.name.text() and self.author.text()
+        versions = self.v1.text() and self.v2.text() and self.v3.text() and self.fv1.text() and self.fv2.text()
+        valid = (info and versions) != ''
 
-    def create_mod(self):
+        self.dialog_buttons.button(QDialogButtonBox.Ok).setEnabled(valid)
+
+    def generate_mod_data(self):
+        if 'projects' not in self.config.config.keys():
+            self.config.config['projects'] = []
+        self.config.config['projects'].append(self.name.text())
+        self.config.save_config()
+
+        mods_path = self.config.config['setup_data_location']
+        os.mkdir(os.path.join(mods_path, self.name.text()))
         info = {
-            'title': self.dialog.titleLineEdit.text(),
-            'name': self.dialog.nameLineEdit.text(),
-            'author': self.dialog.authorLineEdit.text(),
-            'contact': self.dialog.contactLineEdit.text(),
-            'homepage': self.dialog.homepageLineEdit.text(),
-            'description': self.dialog.descriptionTextEdit.toPlainText(),
-            'version':
-                self.dialog.v0Box.text() +
-                '.' +
-                self.dialog.v1Box.text() +
-                '.' +
-                self.dialog.v2Box.text(),
-            'factorio version':
-                self.dialog.fv0Box.text() +
-                '.' +
-                self.dialog.fv0Box.text(),
+            "name": self.name.text(),
+            "title": self.title.text(),
+            "version": f"{self.v1.text()}.{self.v2.text()}.{self.v3.text()}",
+            "factorio_version": f"{self.fv1.text()}.{self.fv2.text()}",
+            "author": self.author.text(),
+            "contact": self.contact.text(),
+            "homepage": self.homepage.text(),
+            "description": self.description.toPlainText()
         }
-        config['projects'].append(info['name'])
-        mod_folder = os.path.join(config['factorio_mods'], info['name'])
-        os.mkdir(mod_folder)
-        info_file_path = os.path.join(mod_folder, 'info.json')
-        ic()
-        with open(info_file_path, 'w') as file:
-            json.dump(info, file, indent=4)
-        ic()
+
+        with open(os.path.join(mods_path, self.name.text(), "info.json"), 'w') as f:
+            f.write(str(info))
+
+        self.config.config['last_project'] = self.name.text()
+        self.accept()
+
+
+if __name__ == "__main__":
+    config = ConfigFile('config.json')
+    dialog = NewModDialog(config)
+    dialog.exec_()
