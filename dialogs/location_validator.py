@@ -109,7 +109,7 @@ class LocationSetup(QDialog):
 
     def set_up_window(self):
         self.setWindowTitle("Factorio Location Setup")
-        self.resize(800, 500)
+        self.resize(300, 100)
 
     def validation_update(self, _valid):
         if self.data_validation.valid and self.exe_validation.valid:

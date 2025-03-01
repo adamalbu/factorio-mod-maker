@@ -1,3 +1,4 @@
+import json
 import os
 
 from PyQt5 import QtWidgets
@@ -20,7 +21,7 @@ class NewModDialog(QDialog):
             self.list_of_mods.append(mod.rstrip('.zip'))
 
         self.setWindowTitle("New Mod Setup")
-        self.resize(800, 500)
+        self.resize(300, 100)
 
         layout = QFormLayout()
 
@@ -164,9 +165,10 @@ class NewModDialog(QDialog):
         }
 
         with open(os.path.join(mods_path, self.name.text(), "info.json"), 'w') as f:
-            f.write(str(info))
+            f.write(json.dumps(info, indent=4))
 
         self.config.config['last_project'] = self.name.text()
+        self.config.save_config()
         self.accept()
 
 
